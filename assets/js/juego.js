@@ -45,3 +45,17 @@ const pedirCarta = () => {
 
 // deck         = [];
 // pedirCarta();
+/**
+ * Saber cuanto vale la carta que estamos generando
+ * isNaN( valor ) si no es un numero
+ * valor * 1 transformando el valor de la carta a un numero por eso multiplico valor por 1
+ * 
+ */
+
+const valorCarta = ( carta ) => {
+
+    const valor = carta.substring(0, carta.length - 1);  //extraigo el primer valor del string en estos casos es el numero ya sea compuesto o no
+    return ( isNaN( valor ) ) ? 
+            ( valor === 'A' ) ? 11 : 10 //otra operacion ternaria diciendo que si es un as pues vale 11 en caso contrario vale 10
+            : valor * 1;
+}
