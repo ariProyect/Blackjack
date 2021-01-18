@@ -5,6 +5,17 @@
  * 2S = Two of Spades
  */
 
+ /**
+  * Logica del juego se debe llegar a la puntuación de 21 si te pasas pierdes
+  * 
+  * Si en el turno del jugador se pasa de 21 en la computadora logica implementada la computadora gana porque basta que saque una carta y siendo superior a cero
+  * pues gana la computadora
+  * 
+  * Si los puntos de la computadora son superior a 21 tratando de superar los puntos del jugador entonces el jugador gana
+  * 
+  * Si la computadora iguala los puntos del jugador nadie gana
+  */
+
 let deck         = [];
 const tipos      = ['C','D','H','S'];
 const especiales = ['A','J','Q','K'];
@@ -79,6 +90,7 @@ const valorCarta = ( carta ) => {
 /**
  * 
  * puntos igual o superior al del jugador
+ * 
  */
 const turnoComputadora = ( puntosMinimos ) => {
 
@@ -94,11 +106,13 @@ const turnoComputadora = ( puntosMinimos ) => {
         imgCarta.classList.add('carta');
         divCartasComputadora.append( imgCarta );
 
-        if( puntosMinimos > 21 ) {
+        if( puntosMinimos > 21 ) {    // si los puntos minimos es mayor a 21 no hay razon que haga el ciclo, porque si ya el jugador hace 22 ya perdio y con cualquier
+           // carta que saque la computadora gana
             break;
         }
 
-    } while(  (puntosComputadora < puntosMinimos)  && (puntosMinimos <= 21 ) );
+    } while(  (puntosComputadora < puntosMinimos)  && (puntosMinimos <= 21 ) ); //mientras los puntos de la computadora sea menor a los puntos minimos del jugador y
+    // menor igual a 21
 
     setTimeout(() => {
         if( puntosComputadora === puntosMinimos ) {
@@ -138,7 +152,7 @@ btnPedir.addEventListener('click', () => {
         console.warn('Lo siento mucho, perdiste');
         btnPedir.disabled   = true; // Bloqueo el boton
         btnDetener.disabled = true;
-        turnoComputadora( puntosJugador );
+        turnoComputadora( puntosJugador ); //el puntaje que envio como argumento son los puntos del jugador
 
     } else if ( puntosJugador === 21 ) {
         console.warn('21, genial!');
@@ -148,3 +162,34 @@ btnPedir.addEventListener('click', () => {
     }
 
 });    
+
+btnDetener.addEventListener('click', () => {
+    btnPedir.disabled   = true;
+    btnDetener.disabled = true;
+
+    turnoComputadora( puntosJugador );
+});
+
+/**
+ * Reseteo de todo el juego
+ */
+
+btnNuevo.addEventListener('click', () => {
+
+    console.clear(); // limpio la consola
+    deck = []; // limpiar el deck
+    deck = crearDeck(); //crear un nuevo deck
+
+    puntosJugador     = 0;
+    puntosComputadora = 0;
+    
+    puntosHTML[0].innerText = 0;
+    puntosHTML[1].innerText = 0;
+
+    divCartasComputadora.innerHTML = ''; //borrar las cartas
+    divCartasJugador.innerHTML = '';
+
+    btnPedir.disabled   = false; //habilito los botones
+    btnDetener.disabled = false;
+
+});
